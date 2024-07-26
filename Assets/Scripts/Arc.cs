@@ -6,12 +6,20 @@ public class Arc : MonoBehaviour
 {
     LineRenderer lineRenderer;
     EdgeCollider2D edgeCollider;
+    List<Vector2> points = new List<Vector2>();
+
+    void Awake()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+        edgeCollider = GetComponent<EdgeCollider2D>();
+
+        lineRenderer.positionCount = 0;
+        edgeCollider.points = new Vector2[2];
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        edgeCollider = GetComponent<EdgeCollider2D>();
     }
 
     // Update is called once per frame
@@ -20,11 +28,22 @@ public class Arc : MonoBehaviour
         
     }
 
+    public void AddPoint(Vector2 point)
+    {
+        points.Add(point);
+        lineRenderer.positionCount++;
+        lineRenderer.SetPosition(points.Count-1, point);
+        edgeCollider.points = points.ToArray();
+    }
+
 
     public void SetPoints(Vector3[] points)
     {
-        lineRenderer.SetPositions(points);
-        Debug.Log("hello?");
+        if(points.Length >= 2)
+        {
+            lineRenderer.positionCount = points.Length;
+            lineRenderer.SetPositions(points);
+        }
     }
 
     /*

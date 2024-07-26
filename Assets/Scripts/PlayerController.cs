@@ -8,16 +8,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject arcPrefab;
     [SerializeField] Transform arcParent;
-    [SerializeField] float radius = 5f; // Radius of the arc
-    [SerializeField] float startAngle = 0f; // Start angle in degrees
-    [SerializeField] float endAngle = 90f; // End angle in degrees
-    [SerializeField] int numberOfSegments = 50; // Number of segments to divide the arc into
     [SerializeField] Transform arcStartingPoint; // Generation point of the Arc
 
     Arc arc;
-    LineRenderer lineRenderer;
-    EdgeCollider2D edgeCollider;
-    Vector2 mouseStartPosition, mousePosition, mouseEndPosition;
+    Vector2 startPosition, endPosition;
     List<Vector3> points = new List<Vector3>();
     bool isHoldingMouse;
 
@@ -29,14 +23,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    }
-
-    private void FixedUpdate()
-    {
-        if (isHoldingMouse)
+        if (isHoldingMouse && arc != null)
         {
-            Debug.Log(arcStartingPoint.position);
-            points.Add(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            arc.AddPoint(arcStartingPoint.position);
         }
     }
 
@@ -51,18 +40,22 @@ public class PlayerController : MonoBehaviour
             arc = GameObject.Instantiate(arcPrefab, arcParent).GetComponent<Arc>();
 
             // Get the mouse position and set isHoldingMouse to true
-            mouseStartPosition = arcStartingPoint.position;
-            points.Add(mouseStartPosition);
+            startPosition = arcStartingPoint.position;
+            points.Add(startPosition);
         }
         // Mouse 1 up
         else if (context.canceled)
         {
             isHoldingMouse = false;
-            mouseEndPosition = arcStartingPoint.position;
-            points.Add(mouseEndPosition);
+            endPosition = arcStartingPoint.position;
+            points.Add(endPosition);
 
             // Painting the line
-            arc.SetPoints(points.ToArray());
+            //arc.SetPoints(points.ToArray());
+
+            // Reset
+            points.Clear();
+            arc = null;
         }
     }
 }
