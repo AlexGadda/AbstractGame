@@ -6,10 +6,9 @@ public class RotatePointer : MonoBehaviour
 {
     Camera mainCamera;
     Vector3 mousePosition;
-    Vector3 rotationPoint; // Needed because the center of the circumference can be not 0,0 
+    Vector3 rotationPoint; 
     float rotationZ;
 
-    // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main.GetComponent<Camera>();
@@ -19,7 +18,6 @@ public class RotatePointer : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Calculating the angle betwenn the mouse pointer, the center of the circonference and the X axis
