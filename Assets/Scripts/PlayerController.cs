@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
             // Create a new Arc
             arc = GameObject.Instantiate(arcPrefab, arcParent).GetComponent<Arc>();
+            arc.SetCenter(this.transform.position);
 
             // Get the mouse position and set isHoldingMouse to true
             startPosition = arcStartingPoint.position;
@@ -49,9 +50,6 @@ public class PlayerController : MonoBehaviour
             isHoldingMouse = false;
             endPosition = arcStartingPoint.position;
             points.Add(endPosition);
-
-            // Painting the line
-            //arc.SetPoints(points.ToArray());
 
             // Reset
             points.Clear();
