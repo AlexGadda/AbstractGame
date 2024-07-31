@@ -8,10 +8,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject arcPrefab;
     [SerializeField] Transform arcParent;
-    [SerializeField] Transform arcStartingPoint; // Generation point of the Arc
+    [SerializeField] Transform arcStartingPoint; // Generation point of the Arc, the "Pointer"
 
     Arc arc;
-    Vector2 startPosition, endPosition;
     List<Vector3> points = new List<Vector3>();
     bool isHoldingMouse;
 
@@ -38,18 +37,20 @@ public class PlayerController : MonoBehaviour
 
             // Create a new Arc
             arc = GameObject.Instantiate(arcPrefab, arcParent).GetComponent<Arc>();
-            arc.SetCenter(this.transform.position);
+            arc.center = this.transform.position;
+            arc.radius = Vector3.Distance(arcStartingPoint.position, this.transform.position);
 
-            // Get the mouse position and set isHoldingMouse to true
-            startPosition = arcStartingPoint.position;
-            points.Add(startPosition);
+            // Get the mouse position
+            points.Add(arcStartingPoint.position);
         }
         // Mouse 1 up
         else if (context.canceled)
         {
             isHoldingMouse = false;
-            endPosition = arcStartingPoint.position;
-            points.Add(endPosition);
+
+            // Add the final point to the Arc and making it move
+            points.Add(arcStartingPoint.position);
+            arc.Shoot();
 
             // Reset
             points.Clear();
