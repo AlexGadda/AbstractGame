@@ -14,4 +14,14 @@ public class Projectile : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = -this.transform.right * speed; // Set speed
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag(Tags.Arc))
+        {
+            // Destroy Arc and Projectile
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
 }

@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 22
   scaleOverTime: 1.02
+  maxAngle: 179
   center: {x: 0, y: 0}
   radius: 0
 --- !u!50 &6043293300964919792

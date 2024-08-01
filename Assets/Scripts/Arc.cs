@@ -15,6 +15,7 @@ public class Arc : MonoBehaviour
 {
     [SerializeField] float acceleration;
     [SerializeField] float scaleOverTime;
+    [SerializeField] [Range(10f, 179f)] float maxAngle;
 
     [HideInInspector] public Vector2 center;
     [HideInInspector] public float radius;
@@ -26,6 +27,7 @@ public class Arc : MonoBehaviour
     RotationDirection rotationDirection;
     Rigidbody2D rigidBody;
     bool moving = false;
+    bool stopDrawing = false;
 
     void Awake()
     {
@@ -49,10 +51,20 @@ public class Arc : MonoBehaviour
     public void AddPoint(Vector2 point)
     {
         // Check if have to ignore point 
-        if (points.Count >0 && point == points[^1]) // If it's the same point of the last one (mouse didn't move)
-            return;
-        if (points.Count > 2 && !IsCorrectDirection(point)) // Check if correct direction
-            return;
+        if(points.Count > 0)
+        {
+            if (stopDrawing)
+                return;
+            if(point == points[^1]) // If it's the same point of the last one (mouse didn't move)
+                return;
+            if (Vector2.Angle(points[0], point) >= maxAngle)
+            {
+                stopDrawing = true;
+                return;
+            }
+            if (points.Count > 2 && !IsCorrectDirection(point)) // Check if correct direction
+                return;
+        }
 
         // Add point
         points.Add(point);
@@ -70,6 +82,10 @@ public class Arc : MonoBehaviour
     // Makes the Arc move. 
     public void Shoot()
     {
+        // Destroy the Arc if invalid 
+        if(points.Count < 2)
+            Destroy(this.gameObject);
+
         moving = true; // Makes the Arc move during FixedUpdate
 
         // Calculate the movementVector 
