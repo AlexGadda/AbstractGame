@@ -711,9 +711,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b6467c2405d184281501f74d6dd3d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRadius: 2
-  maxRadius: 5
-  circle: {fileID: 5766453166838822774, guid: 64cb6a5af7ca0944383fb9238ed0846e, type: 3}
+  projectilePrefab: {fileID: 3132524020599667952, guid: 93045376f76aec3479245d7a5546c274, type: 3}
+  minRadius: 10
+  maxRadius: 15
 --- !u!4 &1866139665
 Transform:
   m_ObjectHideFlags: 0

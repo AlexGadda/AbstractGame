@@ -4,26 +4,39 @@ using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
+    [SerializeField] GameObject projectilePrefab;
     [SerializeField] float minRadius;
     [SerializeField] float maxRadius;
-
-    [SerializeField] GameObject circle; // DEBUG
         
-    Vector2 center, randomPoint;
-    float randomDistance;
+    Vector2 center, randomPoint, targetPoint;
+    float randomDistance, angle;
+    GameObject projectile;
+    Coroutine spawnCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
         center = transform.position;
+
+        spawnCoroutine = StartCoroutine(ProjectileSpawn());
     }
 
-    // Update is called once per frame
-    void Update()
+    // Coroutine to spawn Projectiles
+    IEnumerator ProjectileSpawn()
     {
-        randomDistance = Random.Range(minRadius, maxRadius);
-        randomPoint = Random.insideUnitCircle.normalized * randomDistance;
+        while(true)
+        {
+            // Random point
+            randomDistance = Random.Range(minRadius, maxRadius);
+            randomPoint = Random.insideUnitCircle.normalized * randomDistance;
 
-        GameObject.Instantiate(circle, randomPoint, Quaternion.identity); // DEBUG
+            // Rotation
+            angle = Mathf.Atan2(randomPoint.y, randomPoint.x) * Mathf.Rad2Deg;
+
+            projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity);
+            projectile.transform.Rotate(0, 0, angle);
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
