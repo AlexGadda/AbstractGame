@@ -26,6 +26,9 @@ public class RotatePointer : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.IsGameOver)
+            return;
+
         mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         // Check if mouse position is valid

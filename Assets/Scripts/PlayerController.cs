@@ -57,4 +57,12 @@ public class PlayerController : MonoBehaviour
             arc = null;
         }
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag(Tags.Projectile))
+        {
+            GameManager.Instance.GameOver();
+        }
+    }
 }

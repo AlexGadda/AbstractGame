@@ -17,8 +17,6 @@ public class ProjectileSpawner : MonoBehaviour
     void Start()
     {
         center = transform.position;
-
-        spawnCoroutine = StartCoroutine(ProjectileSpawn());
     }
 
     // Coroutine to spawn Projectiles
@@ -38,5 +36,15 @@ public class ProjectileSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    public void StartSpawning()
+    {
+        spawnCoroutine = StartCoroutine(ProjectileSpawn());
+    }
+
+    public void StopSpawning()
+    {
+        StopCoroutine(spawnCoroutine);
     }
 }

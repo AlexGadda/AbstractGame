@@ -36,13 +36,7 @@ public class Arc : MonoBehaviour
         lineRenderer.positionCount = 0;
         edgeCollider.points = new Vector2[2];
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
+   
     void FixedUpdate()
     {
         if (moving)
@@ -82,7 +76,6 @@ public class Arc : MonoBehaviour
         Vector2 v1 = points[0] - center; // Vector from the center to the first point of the Arc
         Vector2 v2 = points[^1] - center;
         float angle = Vector2.Angle(v1, v2) / 2;
-        Debug.Log(angle*2);
         Vector3 rotationAxis = rotationDirection == RotationDirection.Clockwise ? Vector3.back : Vector3.forward;
         movementVector = Quaternion.AngleAxis(angle, rotationAxis) * v1;
     }
