@@ -7,7 +7,9 @@ public class ProjectileSpawner : MonoBehaviour
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] float minRadius;
     [SerializeField] float maxRadius;
-        
+    [SerializeField] Transform projectileParent;
+
+
     Vector2 center, randomPoint, targetPoint;
     float randomDistance, angle;
     GameObject projectile;
@@ -31,7 +33,7 @@ public class ProjectileSpawner : MonoBehaviour
             // Rotation
             angle = Mathf.Atan2(randomPoint.y, randomPoint.x) * Mathf.Rad2Deg;
 
-            projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity);
+            projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity, projectileParent);
             projectile.transform.Rotate(0, 0, angle);
 
             yield return new WaitForSeconds(1f);
