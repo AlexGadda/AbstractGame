@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] CanvasManager canvasManager;
+
     public static GameManager Instance { get; private set; }
     public bool IsGameOver {get; private set;}
-
-    [SerializeField] CanvasManager canvasManager;
+    public int score { get; private set; }
 
     ProjectileSpawner spawner;
 
@@ -30,6 +31,10 @@ public class GameManager : MonoBehaviour
 
         // Start spawning 
         spawner.StartSpawning();
+
+        // Start scoring 
+        score = 0;
+        StartCoroutine(Scoring());
     }
 
     [ContextMenu("GameOver()")]
@@ -51,5 +56,15 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    IEnumerator Scoring()
+    {
+        while(!IsGameOver)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            score += 1;
+            canvasManager.UpdateScore(score);
+        }
     }
 }
