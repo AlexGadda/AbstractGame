@@ -16,6 +16,7 @@ public class Arc : MonoBehaviour
     [SerializeField] float acceleration;
     [SerializeField] float scaleOverTime;
     [SerializeField][Range(10f, 179)] float maxAngle;
+    [SerializeField] float deleteDistance;
 
     [HideInInspector] public Vector2 center;
     [HideInInspector] public float radius;
@@ -30,6 +31,7 @@ public class Arc : MonoBehaviour
     bool moving = false;
     bool stopDrawing = false;
     float totAngle, angleBetween;
+    float distanceFromCenter;
 
     void Awake()
     {
@@ -45,8 +47,15 @@ public class Arc : MonoBehaviour
     {
         if (moving)
         {
+            // Movement and Scaling
             rigidBody.AddForce(movementVector * acceleration);
             this.transform.localScale = this.transform.localScale * scaleOverTime;
+
+            // Destruction if too far away 
+            distanceFromCenter = Vector2.Distance(this.transform.position, center);
+            Debug.Log(distanceFromCenter);
+            if (distanceFromCenter > deleteDistance)
+                Destroy(this.gameObject);
         }
     }
 
@@ -97,7 +106,10 @@ public class Arc : MonoBehaviour
     {
         // Destroy the Arc if invalid 
         if (points.Count < 2)
+        {
             Destroy(this.gameObject);
+            return;
+        }
 
         moving = true; // Makes the Arc move during FixedUpdate
 
