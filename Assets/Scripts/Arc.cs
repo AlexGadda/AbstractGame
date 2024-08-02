@@ -53,7 +53,6 @@ public class Arc : MonoBehaviour
 
             // Destruction if too far away 
             distanceFromCenter = Vector2.Distance(this.transform.position, center);
-            Debug.Log(distanceFromCenter);
             if (distanceFromCenter > deleteDistance)
                 Destroy(this.gameObject);
         }

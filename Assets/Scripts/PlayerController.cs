@@ -20,14 +20,12 @@ public class PlayerController : MonoBehaviour
     bool isHoldingMouse;
     float currentInk;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentInk = maxInk;
         AddInk(-50f); // DEBUG
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(!isHoldingMouse)
@@ -35,7 +33,7 @@ public class PlayerController : MonoBehaviour
             RechargeInk();
         }
         // Add point to existing Arc
-        else if (arc != null)
+        else if (arc != null && currentInk > 0)
         {
             arc.AddPoint(arcStartingPoint.position);
         }
