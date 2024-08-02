@@ -9,17 +9,18 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using static UnityEngine.UI.Image;
 
-public enum RotationDirection { Clockwise, Counterclockwise}
+public enum RotationDirection { Clockwise, Counterclockwise }
 
 public class Arc : MonoBehaviour
 {
     [SerializeField] float acceleration;
     [SerializeField] float scaleOverTime;
-    [SerializeField] [Range(10f, 179f)] float maxAngle;
+    [SerializeField][Range(10f, 179)] float maxAngle;
 
     [HideInInspector] public Vector2 center;
     [HideInInspector] public float radius;
 
+    PlayerController playerController;
     Vector2 movementVector;
     LineRenderer lineRenderer;
     EdgeCollider2D edgeCollider;
@@ -28,6 +29,7 @@ public class Arc : MonoBehaviour
     Rigidbody2D rigidBody;
     bool moving = false;
     bool stopDrawing = false;
+    float totAngle, angleBetween;
 
     void Awake()
     {
@@ -38,7 +40,7 @@ public class Arc : MonoBehaviour
         lineRenderer.positionCount = 0;
         edgeCollider.points = new Vector2[2];
     }
-   
+
     void FixedUpdate()
     {
         if (moving)
@@ -48,16 +50,24 @@ public class Arc : MonoBehaviour
         }
     }
 
+    // Constructor, MUST be called after instantiation 
+    public void Initialize(Vector2 center, float radius, PlayerController playerController)
+    {
+        this.center = center;
+        this.radius = radius;
+        this.playerController = playerController;
+    }
+
     public void AddPoint(Vector2 point)
     {
         // Check if have to ignore point 
-        if(points.Count > 0)
+        if (points.Count > 0)
         {
             if (stopDrawing)
                 return;
-            if(point == points[^1]) // If it's the same point of the last one (mouse didn't move)
+            if (point == points[^1]) // If it's the same point of the last one (mouse didn't move)
                 return;
-            if (Vector2.Angle(points[0], point) >= maxAngle)
+            if ((totAngle += (angleBetween = Vector2.Angle(points[^1], point))) >= maxAngle)
             {
                 stopDrawing = true;
                 return;
@@ -69,8 +79,11 @@ public class Arc : MonoBehaviour
         // Add point
         points.Add(point);
         lineRenderer.positionCount++;
-        lineRenderer.SetPosition(points.Count-1, point);
+        lineRenderer.SetPosition(points.Count - 1, point);
         edgeCollider.points = points.ToArray();
+
+        // Subtract Ink
+        playerController.AddInk(-angleBetween);
 
         // If first 2 points, calculate direction (clock or counterclockwise)
         if (points.Count == 2)
@@ -83,7 +96,7 @@ public class Arc : MonoBehaviour
     public void Shoot()
     {
         // Destroy the Arc if invalid 
-        if(points.Count < 2)
+        if (points.Count < 2)
             Destroy(this.gameObject);
 
         moving = true; // Makes the Arc move during FixedUpdate
@@ -96,7 +109,7 @@ public class Arc : MonoBehaviour
         movementVector = Quaternion.AngleAxis(angle, rotationAxis) * v1;
     }
 
-    
+
     // Calcolute the bidimensional cross product between 2 vectors, given theri head and a common tail on the center of a circumference
     float CrossProduct(Vector2 p1, Vector2 p2)
     {

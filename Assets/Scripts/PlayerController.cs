@@ -6,23 +6,36 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] CanvasManager canvasManager;
+    [Header("Prefabs")]
     [SerializeField] GameObject arcPrefab;
     [SerializeField] Transform arcParent;
-    [SerializeField] Transform arcStartingPoint; // Generation point of the Arc, the "Pointer"
+    [SerializeField] Transform arcStartingPoint; // Generation point of the Arc, the "Pointer
+    [Header("Ink")]
+    [SerializeField] float maxInk; // Max and starting Ink
+    [SerializeField] float rechargeRate; // TODO
 
     Arc arc;
     List<Vector3> points = new List<Vector3>();
     bool isHoldingMouse;
+    float currentInk;
 
     // Start is called before the first frame update
     void Start()
     {
+        currentInk = maxInk;
+        AddInk(-50f); // DEBUG
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isHoldingMouse && arc != null)
+        if(!isHoldingMouse)
+        {
+            RechargeInk();
+        }
+        // Add point to existing Arc
+        else if (arc != null)
         {
             arc.AddPoint(arcStartingPoint.position);
         }
@@ -37,8 +50,7 @@ public class PlayerController : MonoBehaviour
 
             // Create a new Arc
             arc = GameObject.Instantiate(arcPrefab, arcParent).GetComponent<Arc>();
-            arc.center = this.transform.position;
-            arc.radius = Vector3.Distance(arcStartingPoint.position, this.transform.position);
+            arc.Initialize(this.transform.position, Vector3.Distance(arcStartingPoint.position, this.transform.position), this);
 
             // Get the mouse position
             points.Add(arcStartingPoint.position);
@@ -60,9 +72,23 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag(Tags.Projectile))
+        if (collision.gameObject.CompareTag(Tags.Projectile))
         {
             GameManager.Instance.GameOver();
         }
+    }
+
+    void RechargeInk()
+    {
+        AddInk(rechargeRate*Time.deltaTime);
+    }
+
+    public void AddInk(float amout)
+    {
+        currentInk += amout;
+        currentInk = Mathf.Clamp(currentInk, 0, maxInk);
+
+        // Update UI 
+        canvasManager.DisplayInk(currentInk, maxInk);
     }
 }
