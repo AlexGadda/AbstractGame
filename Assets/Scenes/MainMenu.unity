@@ -134,6 +134,8 @@ GameObject:
   - component: {fileID: 154102338}
   - component: {fileID: 154102340}
   - component: {fileID: 154102339}
+  - component: {fileID: 154102342}
+  - component: {fileID: 154102341}
   m_Layer: 5
   m_Name: CenterSphere
   m_TagString: Untagged
@@ -158,7 +160,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 873, y: 873}
+  m_SizeDelta: {x: 850, y: 850}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &154102339
 MonoBehaviour:
@@ -198,6 +200,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154102337}
   m_CullTransparentMesh: 1
+--- !u!114 &154102341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154102337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd94541a54f1f748b1b6ae44fa5f250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeRange: 0.1
+  maxScale: 1.27
+--- !u!114 &154102342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154102337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d075cc7d5fa193a4497846bd7f53a47f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfSamples: 4096
+  bandType: 1
+  fallSpeed: 0.35
+  sensibility: 9
 --- !u!1 &334246484
 GameObject:
   m_ObjectHideFlags: 0
