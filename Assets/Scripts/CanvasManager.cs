@@ -9,7 +9,7 @@ public class CanvasManager : MonoBehaviour
     [Header("Text")]
     [SerializeField] TMP_Text gameOver_txt;
     [SerializeField] TMP_Text score_txt;
-    [SerializeField] TMP_Text record_txt;
+    [SerializeField] TMP_Text highScore_txt;
     [Header("Objects")]
     [SerializeField] GameObject inkDisplay;
 
@@ -18,7 +18,6 @@ public class CanvasManager : MonoBehaviour
     private void Start()
     {
         maxInkSize = inkDisplay.transform.localScale.x;
-        score_txt.text = "0";
     }
 
     private void Update()
@@ -41,6 +40,11 @@ public class CanvasManager : MonoBehaviour
     {
         // Update score 
         score_txt.text = newScore.ToString();
+    }
+
+    public void UpdateHighScore(int highScore)
+    {
+        highScore_txt.text = highScore.ToString();
     }
 
     IEnumerator OnOffRoutine(TMP_Text text)

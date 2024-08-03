@@ -166,12 +166,12 @@ GameObject:
   - component: {fileID: 87509979}
   - component: {fileID: 87509978}
   m_Layer: 5
-  m_Name: Record
+  m_Name: HighScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &87509978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,8 +286,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
-  m_SizeDelta: {x: 422.2749, y: 136.042}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 236.4991, y: 136.042}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &111365036
 GameObject:
@@ -1118,8 +1118,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -68.127014, y: -0.12654114}
-  m_SizeDelta: {x: 136.2531, y: 0.25309753}
+  m_AnchoredPosition: {x: -56.83101, y: 0.000015258789}
+  m_SizeDelta: {x: 113.6627, y: -22.3442}
   m_Pivot: {x: 0.4999997, y: 0.50000006}
 --- !u!114 &1170820900
 MonoBehaviour:
@@ -1509,8 +1509,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 211.13745, y: -68.020905}
-  m_SizeDelta: {x: 422.2749, y: 136.042}
+  m_AnchoredPosition: {x: 118.25, y: -68.021}
+  m_SizeDelta: {x: 236.4991, y: 136.042}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1489592770
 GameObject:
@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOver_txt: {fileID: 494471525}
   score_txt: {fileID: 1368143631}
-  record_txt: {fileID: 87509978}
+  highScore_txt: {fileID: 87509978}
   inkDisplay: {fileID: 439810232}
 --- !u!114 &1489592772
 MonoBehaviour:

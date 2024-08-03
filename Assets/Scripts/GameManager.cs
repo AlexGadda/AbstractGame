@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public int score { get; private set; }
 
     ProjectileSpawner spawner;
+    int highScore;
+
+    static string highScore_key = "highScore";
 
     private void Awake()
     {
@@ -32,6 +35,13 @@ public class GameManager : MonoBehaviour
         // Start spawning 
         spawner.StartSpawning();
 
+        // Get High Score
+        highScore = PlayerPrefs.GetInt(highScore_key, 0);
+
+        // Set score and high-score
+        canvasManager.UpdateScore(0);
+        canvasManager.UpdateHighScore(highScore);
+
         // Start scoring 
         score = 0;
         StartCoroutine(Scoring());
@@ -42,9 +52,18 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over!");
         IsGameOver = true;
-        spawner.StopSpawning();
-        canvasManager.DisplayGameOver();
         Time.timeScale = 0f;
+        spawner.StopSpawning();
+
+        // Check high-score
+        if(score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt(highScore_key, highScore);
+        }
+
+        canvasManager.UpdateHighScore(highScore);
+        canvasManager.DisplayGameOver();
     }
 
     public void Reload()
@@ -60,9 +79,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Scoring()
     {
-        while(!IsGameOver)
+        while(true)
         {
             yield return new WaitForSecondsRealtime(1f);
+
+            if (IsGameOver)
+                break;
+
             score += 1;
             canvasManager.UpdateScore(score);
         }
