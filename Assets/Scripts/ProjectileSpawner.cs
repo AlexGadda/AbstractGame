@@ -24,7 +24,9 @@ public class ProjectileSpawner : MonoBehaviour
     // Coroutine to spawn Projectiles
     IEnumerator ProjectileSpawn()
     {
-        while(true)
+        yield return new WaitForSeconds(2f); // Initial wait    
+
+        while (true)
         {
             // Random point
             randomDistance = Random.Range(minRadius, maxRadius);
