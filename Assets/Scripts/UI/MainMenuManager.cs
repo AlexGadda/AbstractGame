@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] Animator settingAnim;
-    [SerializeField] GameObject transition;
+    [SerializeField] Animator transitionAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +31,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        transition.SetActive(true);
-        StartCoroutine(LoadSceneAfter(1, 1f));
+        transitionAnim.SetTrigger("Start");
+        StartCoroutine(LoadSceneAfter(1, 2f));
     }
 
     public void Quit()
