@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     ProjectileSpawner spawner;
     int highScore;
 
-    static string highScore_key = "highScore";
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -36,7 +34,7 @@ public class GameManager : MonoBehaviour
         spawner.StartSpawning();
 
         // Get High Score
-        highScore = PlayerPrefs.GetInt(highScore_key, 0);
+        highScore = PlayerPrefs.GetInt(PlayerPrefsStrings.HighScore, 0);
 
         // Set score and high-score
         canvasManager.UpdateScore(0);
@@ -59,7 +57,7 @@ public class GameManager : MonoBehaviour
         if(score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt(highScore_key, highScore);
+            PlayerPrefs.SetInt(PlayerPrefsStrings.HighScore, highScore);
         }
 
         canvasManager.UpdateHighScore(highScore);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class CanvasManager : MonoBehaviour
 {
     [Header("Text")]
     [SerializeField] TMP_Text gameOver_txt;
+    [SerializeField] TMP_Text retry_txt;
     [SerializeField] TMP_Text score_txt;
     [SerializeField] TMP_Text highScore_txt;
     [Header("Objects")]
@@ -49,6 +51,8 @@ public class CanvasManager : MonoBehaviour
 
     IEnumerator OnOffRoutine(TMP_Text text)
     {
+        retry_txt.enabled = true;
+
         while (true)
         {
             text.enabled = true;
