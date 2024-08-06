@@ -27,7 +27,6 @@ public class DisappearingText : MonoBehaviour
 
         for(float elapsedTime=0f; elapsedTime < fadeTime; elapsedTime += Time.deltaTime)
         {
-            Debug.Log(elapsedTime);
             newColor.a = Mathf.Lerp(1, 0, elapsedTime / fadeTime);
             text.color = newColor;
             yield return null; // Ensures the coroutine yields control every frame, allowing smooth fading

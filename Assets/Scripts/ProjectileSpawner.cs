@@ -8,11 +8,16 @@ public class ProjectileSpawner : MonoBehaviour
     [SerializeField] float minRadius;
     [SerializeField] float maxRadius;
     [SerializeField] Transform projectileParent;
+    [SerializeField] float speed;
+
+    [Header("Difficulty curve")]
+    public AnimationCurve spawnRateCurve;
+    public AnimationCurve projectileSpeedCurve;
 
 
     Vector2 center, randomPoint, targetPoint;
     float randomDistance, angle;
-    GameObject projectile;
+    Projectile projectile;
     Coroutine spawnCoroutine;
 
     // Start is called before the first frame update
@@ -24,7 +29,7 @@ public class ProjectileSpawner : MonoBehaviour
     // Coroutine to spawn Projectiles
     IEnumerator ProjectileSpawn()
     {
-        yield return new WaitForSeconds(2f); // Initial wait    
+        yield return new WaitForSeconds(4f); // Initial wait 
 
         while (true)
         {
@@ -35,10 +40,11 @@ public class ProjectileSpawner : MonoBehaviour
             // Rotation
             angle = Mathf.Atan2(randomPoint.y, randomPoint.x) * Mathf.Rad2Deg;
 
-            projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity, projectileParent);
-            projectile.transform.Rotate(0, 0, angle);
+            projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity, projectileParent).GetComponent<Projectile>();
+            //projectile.Initialize(projectileSpeedCurve.Evaluate(GameManager.Instance.score), angle);
+            projectile.Initialize(speed, angle); // DEBUG
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f); // TODO WITH CURVE
         }
     }
 

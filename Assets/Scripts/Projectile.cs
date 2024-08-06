@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] float speed;
-
     Rigidbody2D rigidBody;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        rigidBody.velocity = -this.transform.right * speed; // Set speed
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -23,5 +20,11 @@ public class Projectile : MonoBehaviour
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
+    }
+
+    public void Initialize(float speed, float rotationAngle)
+    {
+        this.transform.Rotate(0, 0, rotationAngle);
+        rigidBody.velocity = -this.transform.right * speed; // Set speed
     }
 }
