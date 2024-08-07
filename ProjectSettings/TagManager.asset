@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Arc
   - Projectile
+  - PowerUp_Shield
+  - PowerUp_Ink
   layers:
   - Default
   - TransparentFX
@@ -13,9 +15,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - PowerUp
+  - Arc
+  - Projectile
   - 
   - 
   - 

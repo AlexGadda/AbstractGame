@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,11 +15,13 @@ public class PlayerController : MonoBehaviour
     [Header("Ink")]
     [SerializeField] float maxInk; // Max and starting Ink
     [SerializeField] float rechargeRate; // TODO
+    [SerializeField][Tooltip("After consuming all Ink, can't create new Arc before recharging until X.")] float rechargeTreshold;
 
     Arc arc;
-    List<Vector3> points = new List<Vector3>();
     bool isHoldingMouse;
+    bool hasShield = false;
     float currentInk;
+    bool rechargeWait = false; // After reaching "0" (circa) ink, must wait until currentInk reaches recharge Treshold
 
     void Start()
     {
@@ -42,28 +45,23 @@ public class PlayerController : MonoBehaviour
     public void OnShoot(InputAction.CallbackContext context)
     {
         // Mouse 1 down
-        if (context.started)
+        if (context.started && !rechargeWait)
         {
             isHoldingMouse = true;
 
             // Create a new Arc
             arc = GameObject.Instantiate(arcPrefab, arcParent).GetComponent<Arc>();
             arc.Initialize(this.transform.position, Vector3.Distance(arcStartingPoint.position, this.transform.position), this);
-
-            // Get the mouse position
-            points.Add(arcStartingPoint.position);
         }
         // Mouse 1 up
         else if (context.canceled)
         {
             isHoldingMouse = false;
 
-            // Add the final point to the Arc and making it move
-            points.Add(arcStartingPoint.position);
-            arc.Shoot();
+            // Making it move
+            arc?.Shoot();
 
             // Reset
-            points.Clear();
             arc = null;
         }
     }
@@ -72,13 +70,29 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(Tags.Projectile))
         {
-            GameManager.Instance.GameOver();
+            if (hasShield)
+            {
+                Destroy(collision.gameObject);
+                hasShield = false;
+                canvasManager.ShowShield(false);
+            }
+            else
+            {
+                GameManager.Instance.GameOver();
+            }
         }
     }
 
     void RechargeInk()
     {
+        if(currentInk <= 10f) 
+            // Reached "0" -> must wait for reachrge time 
+            rechargeWait = true;
+   
         AddInk(rechargeRate*Time.deltaTime);
+
+        if (currentInk >= rechargeTreshold)
+            rechargeWait = false;
     }
 
     public void AddInk(float amout)
@@ -88,5 +102,11 @@ public class PlayerController : MonoBehaviour
 
         // Update UI 
         canvasManager.DisplayInk(currentInk, maxInk);
+    }
+
+    public void AddShield()
+    {
+        canvasManager.ShowShield(true);
+        hasShield = true;
     }
 }

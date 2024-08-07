@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+
     }
 
     void Start()
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
 
         // Start scoring 
         score = 0;
+        //score = 200; // DEBUG
         StartCoroutine(Scoring());
     }
 

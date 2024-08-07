@@ -14,6 +14,7 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] TMP_Text highScore_txt;
     [Header("Objects")]
     [SerializeField] GameObject inkDisplay;
+    [SerializeField] GameObject shield;
 
     float maxInkSize;
 
@@ -60,5 +61,10 @@ public class CanvasManager : MonoBehaviour
             text.enabled = false;
             yield return new WaitForSecondsRealtime(0.5f);
         }
+    }
+
+    public void ShowShield(bool activeStatus)
+    {
+        shield.SetActive(activeStatus);
     }
 }
