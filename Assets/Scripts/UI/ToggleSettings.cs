@@ -12,6 +12,9 @@ public class ToggleSettings : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] Toggle musicToggle;
     [SerializeField] Toggle sfxToggle;
+    [SerializeField] float defaultMusicVolume;
+    [SerializeField] float defaultSfxVolume;
+
 
     private void Start()
     {
@@ -44,8 +47,8 @@ public class ToggleSettings : MonoBehaviour
         else
         {
             // On
-            audioMixer.SetFloat(PlayerPrefsStrings.MusicVolume, 0f);
-            PlayerPrefs.SetFloat(PlayerPrefsStrings.MusicVolume, 0f);
+            audioMixer.SetFloat(PlayerPrefsStrings.MusicVolume, defaultMusicVolume);
+            PlayerPrefs.SetFloat(PlayerPrefsStrings.MusicVolume, defaultMusicVolume);
         }
     }
 
@@ -60,8 +63,8 @@ public class ToggleSettings : MonoBehaviour
         else
         {
             // On
-            audioMixer.SetFloat(PlayerPrefsStrings.SfxVolume, 0f);
-            PlayerPrefs.SetFloat(PlayerPrefsStrings.SfxVolume, 0f);
+            audioMixer.SetFloat(PlayerPrefsStrings.SfxVolume, defaultSfxVolume);
+            PlayerPrefs.SetFloat(PlayerPrefsStrings.SfxVolume, defaultSfxVolume);
         }
     }
 }

@@ -153,6 +153,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106377f24077c434595ed751b413e60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idle_sfx: {fileID: 8300000, guid: feba5a0d0cd6aba4fa58457a78bc5461, type: 3}
+  idle_sfxVolume: 0.08
+  explosion_sfx: {fileID: 8300000, guid: 437462c6b00013e45aa43d2c5ecb274d, type: 3}
+  explosionVolume: 0.85
+  audioMixerGroup: {fileID: -4358186594475393336, guid: 4e15d34b9ab2b7f459c3a2ce916867ff, type: 2}
 --- !u!50 &1719769092957646489
 Rigidbody2D:
   serializedVersion: 4

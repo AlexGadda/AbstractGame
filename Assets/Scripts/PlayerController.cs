@@ -1,8 +1,10 @@
+using Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -14,8 +16,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform arcStartingPoint; // Generation point of the Arc, the "Pointer
     [Header("Ink")]
     [SerializeField] float maxInk; // Max and starting Ink
-    [SerializeField] float rechargeRate; // TODO
+    [SerializeField] float rechargeRate; 
     [SerializeField][Tooltip("After consuming all Ink, can't create new Arc before recharging until X.")] float rechargeTreshold;
+    [Header("Audio")]
+    [SerializeField] AudioClip shootSfx; 
+    [SerializeField][Range(0f, 1f)] float shootVolume; 
+    [SerializeField] AudioMixerGroup mixerGroup; 
 
     Arc arc;
     bool isHoldingMouse;
@@ -26,7 +32,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         currentInk = maxInk;
-        AddInk(-50f); // DEBUG
     }
 
     void Update()
@@ -58,8 +63,13 @@ public class PlayerController : MonoBehaviour
         {
             isHoldingMouse = false;
 
-            // Making it move
-            arc?.Shoot();
+            if(arc != null && !GameManager.Instance.IsGameOver)
+            {
+                // Making it move
+                arc.Shoot();
+                // Play audio
+                AudioManager.Instance.PlayAudioClip(shootSfx, mixerGroup, shootVolume);
+            }
 
             // Reset
             arc = null;

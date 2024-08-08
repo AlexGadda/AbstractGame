@@ -1,11 +1,18 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] CanvasManager canvasManager;
+    [Header("Audio")]
+    [SerializeField] AudioClip gameOverSfx;
+    [SerializeField] float gameOverVolume;
+    [SerializeField] AudioMixerGroup mixerGroup;
+    [SerializeField] AudioMixer audioMixer;
 
     public static GameManager Instance { get; private set; }
     public bool IsGameOver {get; private set;}
@@ -31,6 +38,9 @@ public class GameManager : MonoBehaviour
         IsGameOver = false;
         spawner = GetComponent<ProjectileSpawner>();
 
+        // Audio Setup 
+        audioMixer.SetFloat(PlayerPrefsStrings.MusicVolume, PlayerPrefs.GetFloat(PlayerPrefsStrings.MusicVolume));
+
         // Start spawning 
         spawner.StartSpawning();
 
@@ -51,9 +61,14 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over!");
+
         IsGameOver = true;
         Time.timeScale = 0f;
         spawner.StopSpawning();
+
+        // Audio
+        AudioManager.Instance.PlayAudioClip(gameOverSfx, mixerGroup, gameOverVolume);
+        audioMixer.SetFloat(PlayerPrefsStrings.MusicVolume, -15f);
 
         // Check high-score
         if(score > highScore)

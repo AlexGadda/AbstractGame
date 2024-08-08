@@ -7,7 +7,7 @@ namespace Core
 {
     public class AudioManager : MonoBehaviour
     {
-        public AudioManager Instance { get; private set; } // Singleton
+        public static AudioManager Instance { get; private set; } // Singleton
 
         ObjectPool<AudioSource> pool;
 
@@ -39,6 +39,20 @@ namespace Core
             audioSource.clip = clip;
             if (mixerGroup != null)
                 audioSource.outputAudioMixerGroup = mixerGroup;
+            audioSource.Play();
+            StartCoroutine(DestroyAudioSourceOnFinish(audioSource));
+        }
+
+        public void PlayAudioClip(AudioClip clip, AudioMixerGroup mixerGroup, float volume)
+        {
+            if (clip == null)
+                return;
+
+            AudioSource audioSource = pool.Get();
+            audioSource.clip = clip;
+            if (mixerGroup != null)
+                audioSource.outputAudioMixerGroup = mixerGroup;
+            audioSource.volume = volume;
             audioSource.Play();
             StartCoroutine(DestroyAudioSourceOnFinish(audioSource));
         }

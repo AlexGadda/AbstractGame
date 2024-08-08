@@ -1999,6 +1999,9 @@ MonoBehaviour:
   maxInk: 800
   rechargeRate: 70
   rechargeTreshold: 100
+  shootSfx: {fileID: 8300000, guid: fe531d2e985cd5849949c33e2a42e7dd, type: 3}
+  shootVolume: 0.23
+  mixerGroup: {fileID: -4358186594475393336, guid: 4e15d34b9ab2b7f459c3a2ce916867ff, type: 2}
 --- !u!58 &1308683003
 CircleCollider2D:
   m_ObjectHideFlags: 0
