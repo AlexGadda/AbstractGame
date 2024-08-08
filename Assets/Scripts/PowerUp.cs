@@ -1,14 +1,20 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Audio;
 
-enum PowerUpType { Shield, Ink }
+enum PowerUpType { Shield, Ink, Pierce }
 
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] PowerUpType type;
+    [Header("Audio")]
+    [SerializeField] AudioClip powerUpSfx;
+    [SerializeField][Range(0f, 1f)] float powerUpSfxVolume;
+    [SerializeField] AudioMixerGroup mixerGroup;
 
     Rigidbody2D rb;
     PowerupSpawner spawner;
@@ -48,7 +54,12 @@ public class PowerUp : MonoBehaviour
                 case PowerUpType.Ink:
                     ActivateInk();
                     break;
+                case PowerUpType.Pierce:
+                    ActivatePierce();   
+                    break;
             }
+
+            AudioManager.Instance.PlayAudioClip(powerUpSfx, mixerGroup, powerUpSfxVolume);
 
             if (collision.gameObject.CompareTag(Tags.Arc))
                 Destroy(collision.gameObject);
@@ -70,7 +81,12 @@ public class PowerUp : MonoBehaviour
     {
         player.AddShield();
     }
-    
+
+    void ActivatePierce()
+    {
+        player.ActivatePierce();
+    }
+
     void OnDestroy()
     {
         spawner.CanSpawnNow();

@@ -17,9 +17,11 @@ public class Arc : MonoBehaviour
     [SerializeField] float scaleOverTime;
     [SerializeField][Range(10f, 179)] float maxAngle;
     [SerializeField] float deleteDistance;
+    [SerializeField] Color pierceColor;
 
-    [HideInInspector] public Vector2 center;
-    [HideInInspector] public float radius;
+    public Vector2 center { get; private set; }
+    public float radius { get; private set; }
+    public bool isPierce { get; private set; }
 
     PlayerController playerController;
     Vector2 movementVector;
@@ -59,11 +61,14 @@ public class Arc : MonoBehaviour
     }
 
     // Constructor, MUST be called after instantiation 
-    public void Initialize(Vector2 center, float radius, PlayerController playerController)
+    public void Initialize(Vector2 center, float radius, PlayerController playerController, bool isPierce)
     {
         this.center = center;
         this.radius = radius;
         this.playerController = playerController;
+        this.isPierce = isPierce;
+        if (isPierce)
+            this.GetComponent<LineRenderer>().SetColors(pierceColor, pierceColor);
     }
 
     public void AddPoint(Vector2 point)

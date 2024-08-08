@@ -42,7 +42,7 @@ public class ProjectileSpawner : MonoBehaviour
 
             projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity, projectileParent).GetComponent<Projectile>();
             projectile.Initialize(projectileSpeedCurve.Evaluate(GameManager.Instance.score), angle);
-            Debug.Log("Speed: " + projectileSpeedCurve.Evaluate(GameManager.Instance.score) + " | SpawnRate: " + spawnRateCurve.Evaluate(GameManager.Instance.score));
+            //Debug.Log("Speed: " + projectileSpeedCurve.Evaluate(GameManager.Instance.score) + " | SpawnRate: " + spawnRateCurve.Evaluate(GameManager.Instance.score));
 
             yield return new WaitForSeconds(spawnRateCurve.Evaluate(GameManager.Instance.score)); 
         }

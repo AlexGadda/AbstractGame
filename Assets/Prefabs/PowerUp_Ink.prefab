@@ -163,6 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  powerUpSfx: {fileID: 8300000, guid: 6edaf093e8307814bbe8464b1e790ba7, type: 3}
+  powerUpSfxVolume: 0.65
+  mixerGroup: {fileID: -4358186594475393336, guid: 4e15d34b9ab2b7f459c3a2ce916867ff, type: 2}
 --- !u!95 &2182301638249463424
 Animator:
   serializedVersion: 5

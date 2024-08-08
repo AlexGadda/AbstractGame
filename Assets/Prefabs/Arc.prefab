@@ -194,8 +194,7 @@ MonoBehaviour:
   scaleOverTime: 1.02
   maxAngle: 179
   deleteDistance: 15
-  center: {x: 0, y: 0}
-  radius: 0
+  pierceColor: {r: 0.236, g: 0.7254375, b: 1, a: 1}
 --- !u!50 &6043293300964919792
 Rigidbody2D:
   serializedVersion: 4

@@ -21,13 +21,17 @@ public class PlayerController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] AudioClip shootSfx; 
     [SerializeField][Range(0f, 1f)] float shootVolume; 
-    [SerializeField] AudioMixerGroup mixerGroup; 
+    [SerializeField] AudioMixerGroup mixerGroup;
+    [Header("PowerUps")]
+    [SerializeField] Animator pierceVisualizerAnim;
+    [SerializeField] float pierceDuration;
 
     Arc arc;
     bool isHoldingMouse;
     bool hasShield = false;
     float currentInk;
     bool rechargeWait = false; // After reaching "0" (circa) ink, must wait until currentInk reaches recharge Treshold
+    bool pierceActive = false;
 
     void Start()
     {
@@ -56,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
             // Create a new Arc
             arc = GameObject.Instantiate(arcPrefab, arcParent).GetComponent<Arc>();
-            arc.Initialize(this.transform.position, Vector3.Distance(arcStartingPoint.position, this.transform.position), this);
+            arc.Initialize(this.transform.position, Vector3.Distance(arcStartingPoint.position, this.transform.position), this, pierceActive);
         }
         // Mouse 1 up
         else if (context.canceled)
@@ -118,5 +122,22 @@ public class PlayerController : MonoBehaviour
     {
         canvasManager.ShowShield(true);
         hasShield = true;
+    }
+
+    public void ActivatePierce()
+    {
+        StartCoroutine(PierceRoutine());
+    }
+
+    IEnumerator PierceRoutine()
+    {
+        pierceActive = true;
+        pierceVisualizerAnim.SetTrigger("FadeIn");
+
+        yield return new WaitForSeconds(pierceDuration-3f); // Minus the animation duration
+
+        pierceVisualizerAnim.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(3f); // Animation
+        pierceActive = false;
     }
 }

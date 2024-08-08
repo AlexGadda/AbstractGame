@@ -35,9 +35,9 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(Tags.Arc))
         {
-            // Destroy Arc and Projectile
             AudioManager.Instance.PlayAudioClip(explosion_sfx, audioMixerGroup, explosionVolume);
-            Destroy(collision.gameObject);
+            if(!collision.gameObject.GetComponent<Arc>().isPierce)
+                Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
     }
