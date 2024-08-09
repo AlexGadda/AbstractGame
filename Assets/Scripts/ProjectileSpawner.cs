@@ -9,6 +9,7 @@ public class ProjectileSpawner : MonoBehaviour
     [SerializeField] float maxRadius;
     [SerializeField] Transform projectileParent;
     [SerializeField] float speed;
+    [SerializeField] ParticleManager particleManager;
 
     [Header("Difficulty curve")]
     public AnimationCurve spawnRateCurve;
@@ -41,7 +42,7 @@ public class ProjectileSpawner : MonoBehaviour
             angle = Mathf.Atan2(randomPoint.y, randomPoint.x) * Mathf.Rad2Deg;
 
             projectile = GameObject.Instantiate(projectilePrefab, randomPoint, Quaternion.identity, projectileParent).GetComponent<Projectile>();
-            projectile.Initialize(projectileSpeedCurve.Evaluate(GameManager.Instance.score), angle);
+            projectile.Initialize(projectileSpeedCurve.Evaluate(GameManager.Instance.score), angle, particleManager);
             //Debug.Log("Speed: " + projectileSpeedCurve.Evaluate(GameManager.Instance.score) + " | SpawnRate: " + spawnRateCurve.Evaluate(GameManager.Instance.score));
 
             yield return new WaitForSeconds(spawnRateCurve.Evaluate(GameManager.Instance.score)); 
