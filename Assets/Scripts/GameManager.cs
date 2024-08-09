@@ -15,8 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
 
     public static GameManager Instance { get; private set; }
-    public bool IsGameOver {get; private set;}
-    public int score { get; private set; }
+    public bool IsGameOver { get; private set; }
+    public bool IsPause {get; private set;}
+    public int Score { get; private set; }
 
     ProjectileSpawner spawner;
     int highScore;
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         IsGameOver = false;
+        IsPause = false;
+
         spawner = GetComponent<ProjectileSpawner>();
 
         // Audio Setup 
@@ -52,7 +55,7 @@ public class GameManager : MonoBehaviour
         canvasManager.UpdateHighScore(highScore);
 
         // Start scoring 
-        score = 0;
+        Score = 0;
         //score = 200; // DEBUG
         StartCoroutine(Scoring());
     }
@@ -71,9 +74,9 @@ public class GameManager : MonoBehaviour
         audioMixer.SetFloat(PlayerPrefsStrings.MusicVolume, -15f);
 
         // Check high-score
-        if(score > highScore)
+        if(Score > highScore)
         {
-            highScore = score;
+            highScore = Score;
             PlayerPrefs.SetInt(PlayerPrefsStrings.HighScore, highScore);
         }
 
@@ -87,22 +90,35 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void Quit()
+    public void ExitPressed()
     {
-        Application.Quit();
+        if(IsGameOver)
+            Application.Quit();
+        else if(IsPause)
+        {
+            IsPause = false;
+            canvasManager.TogglePause();
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            IsPause = true;
+            canvasManager.TogglePause();
+            Time.timeScale = 0f;
+        }
     }
 
     IEnumerator Scoring()
     {
         while(true)
         {
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSeconds(1f);
 
             if (IsGameOver)
                 break;
 
-            score += 1;
-            canvasManager.UpdateScore(score);
+            Score += 1;
+            canvasManager.UpdateScore(Score);
         }
     }
 }

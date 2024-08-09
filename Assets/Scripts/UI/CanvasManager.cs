@@ -15,6 +15,7 @@ public class CanvasManager : MonoBehaviour
     [Header("Objects")]
     [SerializeField] GameObject inkDisplay;
     [SerializeField] GameObject shield;
+    [SerializeField] GameObject pausePanel;
 
     float maxInkSize;
 
@@ -66,5 +67,10 @@ public class CanvasManager : MonoBehaviour
     public void ShowShield(bool activeStatus)
     {
         shield.SetActive(activeStatus);
+    }
+
+    public void TogglePause()
+    {
+        pausePanel.SetActive(!pausePanel.activeSelf);
     }
 }
