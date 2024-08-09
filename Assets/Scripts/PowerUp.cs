@@ -61,7 +61,7 @@ public class PowerUp : MonoBehaviour
 
             AudioManager.Instance.PlayAudioClip(powerUpSfx, mixerGroup, powerUpSfxVolume);
 
-            if (collision.gameObject.CompareTag(Tags.Arc))
+            if (collision.gameObject.CompareTag(Tags.Arc) && !collision.gameObject.GetComponent<Arc>().isPierce)
                 Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
